@@ -88,3 +88,44 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+
+/**
+ * Zadanie 6: Pobieranie danych z JSON i dynamiczne budowanie list.
+ */
+function loadDataFromJson() {
+    fetch('data.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Błąd podczas ładowania pliku JSON');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 1. Generowanie listy umiejętności
+            const skillsList = document.getElementById('skills-list');
+            if (skillsList) {
+                data.skills.forEach(skill => {
+                    const li = document.createElement('li');
+                    li.textContent = skill;
+                    skillsList.appendChild(li);
+                });
+            }
+
+            // 2. Generowanie listy projektów
+            const projectsList = document.getElementById('projects-list');
+            if (projectsList) {
+                data.projects.forEach(project => {
+                    const li = document.createElement('li');
+                    li.textContent = project;
+                    projectsList.appendChild(li);
+                });
+            }
+            console.log('Dane z JSON zostały załadowane pomyślnie.');
+        })
+        .catch(error => {
+            console.error('Wystąpił problem z operacją fetch:', error);
+        });
+}
+
+// Wywołujemy funkcję po załadowaniu DOM
+document.addEventListener("DOMContentLoaded", loadDataFromJson);
