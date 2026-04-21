@@ -74,6 +74,37 @@
                 <li><strong>Repozytorium GitHub</strong> – konfiguracja publicznego profilu i zarządzanie kodem źródłowym projektu.</li>
             </ol>
         </section>
+
+        <section id="contact-form-section">
+            <h2>Napisz do mnie</h2>
+            <form id="contact-form" novalidate>
+                <div class="form-group">
+                    <label for="imie">Imię:</label>
+                    <input type="text" id="imie" name="imie">
+                    <span class="error-message" id="imie-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="nazwisko">Nazwisko:</label>
+                    <input type="text" id="nazwisko" name="nazwisko">
+                    <span class="error-message" id="nazwisko-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email">
+                    <span class="error-message" id="email-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="wiadomosc">Wiadomość:</label>
+                    <textarea id="wiadomosc" name="wiadomosc" rows="4"></textarea>
+                    <span class="error-message" id="wiadomosc-error"></span>
+                </div>
+
+                <button type="submit" id="submit-btn">Wyślij wiadomość</button>
+            </form>
+        </section>
     </main>
 
     <footer>
