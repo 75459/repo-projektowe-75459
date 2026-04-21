@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>CV - Jakub Kowalczyk</title>
-    <link rel="stylesheet" href="red.css">
+    <link rel="stylesheet" href="red.css" id="theme-link">
 </head>
 <body>
 
     <header>
         <h1>Jakub Kowalczyk - CV</h1>
+        <div style="margin-top: 10px;">
+            <button onclick="changeTheme('green.css')">Motyw Zielony</button>
+            <button onclick="changeTheme('red.css')">Motyw Czerwony</button>
+            <button onclick="toggleSection('skills-section')">Pokaż/Ukryj Umiejętności</button>
+        </div>
     </header>
 
     <main>
@@ -30,7 +35,8 @@
             <p>Jestem studentem inżynierii oprogramowania, który właśnie uczy się technologii internetowych.</p>
             <img src="avatar.png" alt="Zdjęcie profilowe Jakuba Kowalczyka" width="200">
         </section>
-        <section>
+
+        <section id="skills-section">
             <h2>Umiejętności</h2>
             <ul>
                 <li>Podstawy HTML5 i struktury dokumentu</li>
@@ -40,6 +46,7 @@
                 <li>Język angielski na poziomie B2</li>
             </ul>
         </section>
+
         <section>
             <h2>Doświadczenie</h2>
             <article>
@@ -52,12 +59,14 @@
                 <p>Zakres obowiązków: Wprowadzanie danych i pomoc przy zarządzaniu treścią na stronie uczelni.</p>
             </article>
         </section>
+
         <section>
             <h2>Edukacja</h2>
             <p><strong>Akademia Finansów i Biznesu Vistula</strong></p>
             <p>Kierunek: Inżynieria oprogramowania</p>
             <p>Termin: 2025 – obecnie (II semestr)</p>
         </section>
+
         <section>
             <h2>Projekty</h2>
             <ol>
@@ -65,7 +74,6 @@
                 <li><strong>Repozytorium GitHub</strong> – konfiguracja publicznego profilu i zarządzanie kodem źródłowym projektu.</li>
             </ol>
         </section>
-
     </main>
 
     <footer>
@@ -73,5 +81,6 @@
         <p><a href="https://www.youtube.com/watch?v=CzHmLIiDBbs" target="_blank" rel="noopener noreferrer">prezentacja youtube</a></p>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
