@@ -34,40 +34,33 @@ document.addEventListener("DOMContentLoaded", function() {
     
     if (form) {
         form.addEventListener("submit", function(event) {
-            // Zatrzymujemy domyślne wysłanie formularza (brak backendu)
             event.preventDefault(); 
             let isValid = true;
 
-            // Pobieranie wartości i usuwanie białych znaków
             const imie = document.getElementById("imie").value.trim();
             const nazwisko = document.getElementById("nazwisko").value.trim();
             const email = document.getElementById("email").value.trim();
             const wiadomosc = document.getElementById("wiadomosc").value.trim();
 
-            // Czyszczenie starych komunikatów błędów
             document.querySelectorAll(".error-message").forEach(el => el.textContent = "");
 
-            // Funkcja pomocnicza do wyświetlania błędów
             const showError = (id, message) => {
                 document.getElementById(id + "-error").textContent = message;
                 isValid = false;
             };
 
-            // 1. Walidacja Imienia (wymagane, brak cyfr)
             if (!imie) {
                 showError("imie", "Imię jest wymagane.");
             } else if (/\d/.test(imie)) {
                 showError("imie", "Imię nie może zawierać cyfr.");
             }
 
-            // 2. Walidacja Nazwiska (wymagane, brak cyfr)
             if (!nazwisko) {
                 showError("nazwisko", "Nazwisko jest wymagane.");
             } else if (/\d/.test(nazwisko)) {
                 showError("nazwisko", "Nazwisko nie może zawierać cyfr.");
             }
 
-            // 3. Walidacja E-mail (wymagane, poprawny format)
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!email) {
                 showError("email", "E-mail jest wymagany.");
@@ -75,15 +68,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 showError("email", "Podaj poprawny adres e-mail.");
             }
 
-            // 4. Walidacja Wiadomości (wymagane)
             if (!wiadomosc) {
                 showError("wiadomosc", "Wiadomość nie może być pusta.");
             }
 
-            // Podsumowanie działania
             if (isValid) {
                 alert("Walidacja zakończona sukcesem! Formularz jest gotowy do wysłania.");
-                form.reset(); // Czyszczenie formularza po sukcesie
+                form.reset(); 
             }
         });
     }
@@ -101,7 +92,6 @@ function loadDataFromJson() {
             return response.json();
         })
         .then(data => {
-            // 1. Generowanie listy umiejętności
             const skillsList = document.getElementById('skills-list');
             if (skillsList) {
                 data.skills.forEach(skill => {
@@ -111,7 +101,6 @@ function loadDataFromJson() {
                 });
             }
 
-            // 2. Generowanie listy projektów
             const projectsList = document.getElementById('projects-list');
             if (projectsList) {
                 data.projects.forEach(project => {
@@ -127,5 +116,70 @@ function loadDataFromJson() {
         });
 }
 
-// Wywołujemy funkcję po załadowaniu DOM
 document.addEventListener("DOMContentLoaded", loadDataFromJson);
+
+/**
+ * Zadanie 7: Obsługa Local Storage (Notatki)
+ */
+document.addEventListener("DOMContentLoaded", function() {
+    const noteInput = document.getElementById('note-input');
+    const addNoteBtn = document.getElementById('add-note-btn');
+    const notesList = document.getElementById('notes-list');
+
+    if (!notesList) return;
+
+    // Funkcja pobierająca i renderująca notatki
+    function renderNotes() {
+        notesList.innerHTML = '';
+        const savedNotes = JSON.parse(localStorage.getItem('myNotes')) || [];
+        
+        savedNotes.forEach((note, index) => {
+            const li = document.createElement('li');
+            li.style.marginBottom = "5px";
+            li.textContent = note + " ";
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Usuń';
+            deleteBtn.style.padding = '2px 6px';
+            deleteBtn.style.fontSize = '0.8em';
+            deleteBtn.style.cursor = 'pointer';
+            
+            // Obsługa usuwania
+            deleteBtn.onclick = function() {
+                removeNote(index);
+            };
+
+            li.appendChild(deleteBtn);
+            notesList.appendChild(li);
+        });
+    }
+
+    // Dodawanie notatki
+    function addNote() {
+        const text = noteInput.value.trim();
+        if (text === "") return;
+
+        const savedNotes = JSON.parse(localStorage.getItem('myNotes')) || [];
+        savedNotes.push(text);
+        localStorage.setItem('myNotes', JSON.stringify(savedNotes));
+        
+        noteInput.value = '';
+        renderNotes();
+    }
+
+    // Usuwanie notatki po indeksie
+    function removeNote(index) {
+        const savedNotes = JSON.parse(localStorage.getItem('myNotes')) || [];
+        savedNotes.splice(index, 1);
+        localStorage.setItem('myNotes', JSON.stringify(savedNotes));
+        renderNotes();
+    }
+
+    // Nasłuchiwanie na przycisk
+    if (addNoteBtn) {
+        addNoteBtn.addEventListener('click', addNote);
+    }
+
+    // Inicjalizacja przy ładowaniu
+    renderNotes();
+});
