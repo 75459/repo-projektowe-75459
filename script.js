@@ -72,9 +72,45 @@ document.addEventListener("DOMContentLoaded", function() {
                 showError("wiadomosc", "Wiadomość nie może być pusta.");
             }
 
+// Podsumowanie działania i wysyłka do backendu (Zadanie 8)
             if (isValid) {
-                alert("Walidacja zakończona sukcesem! Formularz jest gotowy do wysłania.");
-                form.reset(); 
+                const submitBtn = document.getElementById("submit-btn");
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = "Wysyłanie...";
+                submitBtn.disabled = true;
+
+                const formData = {
+                    imie: imie,
+                    nazwisko: nazwisko,
+                    email: email,
+                    wiadomosc: wiadomosc
+                };
+
+
+                fetch("https://formspree.io/f/mgorpeyl", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Wiadomość została wysłana pomyślnie! Dziękuję.");
+                        form.reset();
+                    } else {
+                        alert("Wystąpił problem z wysłaniem wiadomości.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Błąd podczas wysyłania:", error);
+                    alert("Błąd połączenia z serwerem.");
+                })
+                .finally(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
             }
         });
     }
